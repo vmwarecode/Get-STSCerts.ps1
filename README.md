@@ -1,1 +1,0 @@
-# Get-STSCerts.ps1
