@@ -16,7 +16,7 @@
     .EXAMPLE
         #uses an array to pass multiple vcenters to the function
         $vCenters = "vCenter1.domain.com","vcenter2.domain.com","vCenter3.domain.com"
-        Get-STSCerts -vcenter $vcenters "administrator@vsphere.local" -password 'VMware1!'
+        $vCenters | Get-STSCerts -user "administrator@vsphere.local" -password 'VMware1!'
     .OUTPUTS
         Array of objects containing certificate Valid From, Valid To, Subject, and Issuer
 #>
