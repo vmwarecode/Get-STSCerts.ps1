@@ -1,4 +1,4 @@
-﻿<#
+<#
     .NOTES
         Author: Mark McGill, VMware
         Last Edit: 5-27-2020
@@ -17,6 +17,9 @@
         #uses an array to pass multiple vcenters to the function
         $vCenters = "vCenter1.domain.com","vcenter2.domain.com","vCenter3.domain.com"
         $vCenters | Get-STSCerts -user "administrator@vsphere.local" -password 'VMware1!'
+    .EXAMPLE
+        #pull vCenter names from a text file (1 vCenter name per line)
+        Get-Content "C:\test\vCenters.txt" | Get-STSCerts -user "administrator@vsphere.local"
     .OUTPUTS
         Array of objects containing certificate Valid From, Valid To, Subject, and Issuer
 #>
