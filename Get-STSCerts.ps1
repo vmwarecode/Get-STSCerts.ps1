@@ -1,14 +1,22 @@
 <#
     .NOTES
         Author: Mark McGill, VMware
-        Last Edit: 5-27-2020
-        Version 1.0
+        Last Edit: 11-6-2020
+        Version 1.1
     .SYNOPSIS
         Returns vCenter certificate information for the Security Token Service signing certificate
     .DESCRIPTION
         Returns valid from and valid to dates for the STS certificates. See https://kb.vmware.com/s/article/79248
         vCenter and user are required. If no password is specified, you will be prompted for one
         User must be a local user to vCenter, and must be in SPN format (user@domain.com)
+    .PARAMETER vcenters
+        REQUIRED
+        A single vCenter or array of vCenters to query
+    .PARAMETER user
+        REQUIRED
+        vSphere local domain user in SPN format (ie, administrator@vsphere.local). Local user is needed in order to query LDAP
+    .PARAMETER password
+        If you do not specify a password when calling the function, you will be prompted for it
     .EXAMPLE
         #load function and run
         . ./Get-STSCerts.ps1
@@ -104,8 +112,8 @@ function Get-STSCerts
             {
                 $certificate = "" | Select vCenter,ValidFrom,ValidTo,Subject,Issuer
                 $cert = $request.Entries.attributes['userCertificate'].Item($i)
-                $X509Cert = New-Object -TypeName System.Security.Cryptography.X509Certificates.X509Certificate2
-                $X509Cert.Import([byte[]]$cert)
+                $X509Cert = New-Object -TypeName System.Security.Cryptography.X509Certificates.X509Certificate2(,$cert)
+                #$X509Cert.Import([byte[]]$cert)
                 $certificate.vCenter = $vCenter
                 $certificate.ValidFrom = $X509Cert.NotBefore
                 $certificate.ValidTo = $X509Cert.NotAfter
